@@ -1,6 +1,7 @@
 package com.Spring.SpringBootMysql.Service.ServiceImpl;
 
-import com.Spring.SpringBootMysql.Service.UserService;
+import com.Spring.SpringBootMysql.Service.UserOpsService;
+import com.Spring.SpringBootMysql.entities.UserEntity;
 import com.Spring.SpringBootMysql.model.User;
 import com.Spring.SpringBootMysql.repository.UserRepo;
 
@@ -14,34 +15,34 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
-    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+public class UserOpsServiceImpl implements UserOpsService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserOpsService.class);
     @Autowired
     private UserRepo userRepo;
 
     @Override
-    public User findBymemberID(Long memberID) {
+    public UserEntity findBymemberID(Long memberID) {
         return userRepo.findByid(memberID);
     }
 
     @Override
-    public User findByemailId(String emailId) {
+    public UserEntity findByemailId(String emailId) {
         return userRepo.findByemail(emailId);
     }
 
     @Override
-    public User save(User user) {
+    public UserEntity save(UserEntity user) {
         return userRepo.save(user);
     }
 
     @Override
-    public List<User> findAll() {
+    public List<UserEntity> findAll() {
 
         return userRepo.findAll();
     }
 
     @Override
-    public User addMember(User user) {
+    public UserEntity addMember(UserEntity user) {
         user.setId(user.getId());
 //        user.setCreatedAt(new Date());
 //        user.setUpdatedAt(new Date());

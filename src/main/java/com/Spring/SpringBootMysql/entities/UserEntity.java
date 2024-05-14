@@ -3,12 +3,12 @@ package com.Spring.SpringBootMysql.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -26,20 +26,20 @@ public class UserEntity {
 
   @Column private String email;
 
-  @Column private String phone;
+  @Column private String mobileNumber;
 
-  @Column
-  @CreationTimestamp
-  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-  private LocalDateTime addedOn;
-
-  @Column
-  @UpdateTimestamp
-  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private LocalDateTime updatedOn;
-
-  @Column private boolean isActive;
+//  @Column
+//  @CreationTimestamp
+//  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+//  private LocalDateTime addedOn;
+//
+//  @Column
+//  @UpdateTimestamp
+//  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+//  @JsonInclude(JsonInclude.Include.NON_NULL)
+//  private LocalDateTime updatedOn;
+//
+//  @Column private boolean isActive;
 
 
 //  @Column

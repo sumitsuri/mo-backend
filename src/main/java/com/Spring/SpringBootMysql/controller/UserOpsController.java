@@ -1,11 +1,13 @@
 package com.Spring.SpringBootMysql.controller;
 
-import com.Spring.SpringBootMysql.Service.UserService;
+import com.Spring.SpringBootMysql.Service.UserOpsService;
 import com.Spring.SpringBootMysql.domains.request.UserCreationRequest;
 import com.Spring.SpringBootMysql.domains.request.UserUpdateRequest;
 import com.Spring.SpringBootMysql.domains.response.UserDetails;
+import com.Spring.SpringBootMysql.entities.UserEntity;
 import com.Spring.SpringBootMysql.model.User;
 import com.Spring.SpringBootMysql.repository.UserRepo;
+import com.Spring.SpringBootMysql.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +18,16 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 @Controller
-public class UserController {
+public class UserOpsController {
     @Autowired
     UserRepo userRepo;
     @Autowired
-    UserService userService;
+    UserOpsService userOpsService;
     List<UserDetails> userDetails = new ArrayList<>();
     Set<Integer> userIds = new HashSet<>();
 
     @GetMapping("/user")
-    public List<User> getAllUser() {
+    public List<UserEntity> getAllUser() {
         return userRepo.findAll();
     }
 
@@ -109,14 +111,14 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public User createMember(@RequestBody User user) {
+    public UserEntity createMember(@RequestBody UserEntity user) {
 //        user.setCreatedAt(new Date());
 //        user.setUpdatedAt(new Date());
-        return userService.save(user);
+        return userOpsService.save(user);
     }
 
     @PostMapping("/addMember")
-    public User addMember(@RequestBody User user) {
-        return userService.addMember(user);
+    public UserEntity addMember(@RequestBody UserEntity user) {
+        return userOpsService.addMember(user);
     }
 }

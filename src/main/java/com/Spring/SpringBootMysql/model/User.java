@@ -1,88 +1,39 @@
 package com.Spring.SpringBootMysql.model;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username"),
+        @UniqueConstraint(columnNames = "email")
+})
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
+
+    private String username;
+    private String password;
     private String name;
-
-    @NotBlank
     private String email;
+    private String role;
 
-    @NotBlank
-    private String mobileNumber;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders = new ArrayList<>();
 
-//    @JsonIgnore
-//    @Column(nullable = false, updatable = false)
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    // Allows dd/MM/yyyy date to be passed into GET request in JSON
-//    @DateTimeFormat(pattern = "dd/MM/yyyy")
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @CreatedDate
-//    private Date createdAt;
-//
-//    @JsonIgnore
-//    @Column(nullable = false)
-//    @Temporal(TemporalType.TIMESTAMP)
-//    @LastModifiedDate
-//    @JsonFormat(pattern = "dd/MM/yyyy")
-//    // Allows dd/MM/yyyy date to be passed into GET request in JSON
-//    @DateTimeFormat(pattern = "dd/MM/yyyy")
-//    private Date updatedAt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String username, String password, String name, String email, String role) {
+        this.username = username;
+        this.password = password;
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
-    }
-
-//    public Date getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(Date createdAt) {
-//        this.createdAt = createdAt;
-//    }
-//
-//    public Date getUpdatedAt() {
-//        return updatedAt;
-//    }
-//
-//    public void setUpdatedAt(Date updatedAt) {
-//        this.updatedAt = updatedAt;
-//    }
-
-
-    public String getMobileNumber() {
-        return mobileNumber;
-    }
-
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+        this.role = role;
     }
 }
