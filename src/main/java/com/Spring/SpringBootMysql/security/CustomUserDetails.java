@@ -9,30 +9,30 @@ import java.util.Collection;
 @Data
 public class CustomUserDetails implements UserDetails {
 
-    private Long id;
-    private String username;
-    private String password;
-    private String name;
-    private String email;
-    private Collection<? extends GrantedAuthority> authorities;
+  private Long id;
+  private String username;
+  private String password;
+  private String name;
+  private String email;
+  private Collection<? extends GrantedAuthority> authorities;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
 }

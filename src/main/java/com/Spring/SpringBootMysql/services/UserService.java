@@ -1,23 +1,18 @@
 package com.Spring.SpringBootMysql.services;
 
-import com.Spring.SpringBootMysql.model.User;
-
-import java.util.List;
-import java.util.Optional;
+import com.Spring.SpringBootMysql.domains.common.response.StatusMessageResponse;
+import com.Spring.SpringBootMysql.domains.internal.request.UserCreateRequest;
+import com.Spring.SpringBootMysql.domains.internal.request.UserUpdateRequest;
 
 public interface UserService {
+  StatusMessageResponse addUser(UserCreateRequest userCreateRequest) throws Exception;
 
-    List<User> getUsers();
+  StatusMessageResponse getAllUsers() throws Exception;
 
-    Optional<User> getUserByUsername(String username);
+  StatusMessageResponse getUserById(long id) throws Exception;
 
-    boolean hasUserWithUsername(String username);
+  StatusMessageResponse deleteUserById(long id) throws Exception;
 
-    boolean hasUserWithEmail(String email);
-
-    User validateAndGetUserByUsername(String username);
-
-    User saveUser(User user);
-
-    void deleteUser(User user);
+  StatusMessageResponse updateUserById(long id, UserUpdateRequest userUpdateRequest)
+      throws Exception;
 }
