@@ -1,11 +1,10 @@
 package com.Spring.SpringBootMysql.controller;
 
 import com.Spring.SpringBootMysql.domains.common.response.StatusMessageResponse;
-import com.Spring.SpringBootMysql.domains.internal.request.UserCreateRequest;
-import com.Spring.SpringBootMysql.domains.internal.request.UserMetadataCreateRequest;
-import com.Spring.SpringBootMysql.domains.internal.request.UserMetadataUpdateRequest;
-import com.Spring.SpringBootMysql.domains.internal.request.UserUpdateRequest;
+import com.Spring.SpringBootMysql.domains.dto.LoginRequest;
+import com.Spring.SpringBootMysql.domains.internal.request.*;
 import com.Spring.SpringBootMysql.services.UserMetadataService;
+import com.Spring.SpringBootMysql.services.UserRoleService;
 import com.Spring.SpringBootMysql.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,14 @@ public class UserController {
   @Autowired private UserService userService;
   @Autowired private UserMetadataService userMetadataService;
 
+  @Autowired private UserRoleService userRoleService;
+
   @PostMapping
   public StatusMessageResponse createUser(
       @RequestBody @Valid UserCreateRequest userCreateRequest) throws Exception {
     return userService.addUser(userCreateRequest);
   }
+
 
   @GetMapping
   public StatusMessageResponse getAllUsers() throws Exception {
@@ -70,4 +72,23 @@ public class UserController {
       throws Exception {
     return userMetadataService.updateUserMetadataById(metadataId, userMetadataUpdateRequest);
   }
+
+  @PostMapping("/{id}/user-roles")
+  public StatusMessageResponse addUserRole(
+          @PathVariable long id,
+          @RequestBody @Valid UserRoleAddRequest userRoleAddRequest)
+          throws Exception {
+    return userRoleService.addUserRole(userRoleAddRequest);
+  }
+
+  @GetMapping("/{id}/user-roles")
+  StatusMessageResponse getUserRoles(long userId) throws Exception {
+    return userRoleService.getUserRoles(userId);
+  }
+
+  @DeleteMapping("/{id}/user-roles/{userRoleId}")
+  public StatusMessageResponse removeUserRole(@PathVariable long userRoleId) throws Exception {
+    return userRoleService.removeUserRole(userRoleId);
+  }
+
 }

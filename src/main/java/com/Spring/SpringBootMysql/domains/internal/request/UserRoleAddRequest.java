@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UserCreateRequest {
+public class UserRoleAddRequest {
 
   /**
    * CREATE TABLE `user` ( `id` int NOT NULL AUTO_INCREMENT, `name` varchar(255) NOT NULL,
@@ -13,14 +13,7 @@ public class UserCreateRequest {
    * added_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_on TIMESTAMP NOT NULL DEFAULT
    * CURRENT_TIMESTAMP, PRIMARY KEY (`id`), FOREIGN KEY (org_id) references organisation(id) );
    */
-  private @NotNull String phoneNumber;
 
-  private String email;
-
-  private String name;
-
-  @NotNull
-  private String password;
-
-  private @NotNull long orgId;
+  private @NotNull long roleId;
+  private @NotNull long userId;
 }

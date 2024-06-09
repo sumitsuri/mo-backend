@@ -1,6 +1,5 @@
 package com.Spring.SpringBootMysql.entities.jpa;
 
-import com.Spring.SpringBootMysql.constants.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -12,28 +11,27 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_booking_details")
 @Data
 @Accessors(chain = true)
-public class UserEntity {
+public class UserBookingDetailsEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column private String name;
+  @Column(name = "booking_id")
+  private Long bookingId;
 
-  @Column private String email;
+  @Column(name = "store_service_id")
+  private Long storeServiceId;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+  @Column private String status;
 
-  @Column(name = "org_id")
-  private Long orgId;
+  @Column(name = "added_by")
+  private int addedBy;
 
-  @Column(name = "status")
-  private String status = Constants.Status.ACTIVE;
-  @Column(name = "password")
-  private String password;
+  @Column(name = "updated_by")
+  private int updatedBy;
 
   @Column(name = "added_on")
   @CreationTimestamp

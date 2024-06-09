@@ -15,4 +15,9 @@ public interface UserService {
 
   StatusMessageResponse updateUserById(long id, UserUpdateRequest userUpdateRequest)
       throws Exception;
+
+  StatusMessageResponse getUserByEmail(String email);
+
+  boolean hasUserWithEmail(String email);
+  boolean hasUserWithPhoneNumber(String phoneNumber);
 }

@@ -1,16 +1,15 @@
 package com.Spring.SpringBootMysql.repository;
 
 import com.Spring.SpringBootMysql.entities.jpa.UserEntity;
+import com.Spring.SpringBootMysql.entities.jpa.UserRoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepo extends JpaRepository<UserEntity, Long> {
+public interface UserRoleRepo extends JpaRepository<UserRoleEntity, Long> {
 
-    Optional<UserEntity> findByEmail(String email);
-
-    boolean existsByEmail(String email);
-    boolean existsByPhoneNumber(String phoneNumber);
+    Optional<List<UserRoleEntity>> findByUserId(long userId);
 }

@@ -12,28 +12,24 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "role")
 @Data
 @Accessors(chain = true)
-public class UserEntity {
+public class RoleEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column private String name;
 
-  @Column private String email;
+  @Column(name = "added_by")
+  private int addedBy;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
-
-  @Column(name = "org_id")
-  private Long orgId;
+  @Column(name = "updated_by")
+  private int updatedBy;
 
   @Column(name = "status")
   private String status = Constants.Status.ACTIVE;
-  @Column(name = "password")
-  private String password;
 
   @Column(name = "added_on")
   @CreationTimestamp

@@ -84,6 +84,13 @@ public class Constants {
     public static final String IN_ACTIVE = "IN_ACTIVE";
   }
 
+  public static final class BookingStatus {
+    public static final String REQUESTED = "REQUESTED";
+    public static final String ACCEPTED = "ACCEPTED";
+    public static final String CANCELLED = "CANCELLED";
+    public static final String COMPLETED = "COMPLETED";
+  }
+
   public static final class HttpConstant {
     public static final String GET = "GET";
     public static final String POST = "POST";

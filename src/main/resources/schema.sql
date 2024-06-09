@@ -142,9 +142,9 @@
 
  CREATE TABLE `user_role` (
    `id` int NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) NOT NULL,
     role_id int not null,
    user_id int not null,
+   `status` varchar(255) NOT NULL default 'ACTIVE',
    added_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    added_by int not null,
@@ -153,6 +153,20 @@
    FOREIGN KEY (role_id) references role(id),
    FOREIGN KEY (user_id) references user(id)
  );
+
+  CREATE TABLE `role_permission` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) NOT NULL,
+     role_id int not null,
+     permission_id int not null,
+    added_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    added_by int not null,
+    updated_by int not null,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (role_id) references role(id),
+     FOREIGN KEY (permission_id) references permission(id)
+  );
 
  -- servicename,description,gender,category,service,price,notes,price
  create table service_category(
@@ -199,6 +213,23 @@
 --   FOREIGN KEY (service_id) references service(id) -- organisation_store
 --   );
 
+CREATE TABLE `service` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `estimated_time_to_complete` decimal(6,4) NOT NULL,
+  `service_category_id` int NOT NULL,
+  `added_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `added_by` int NOT NULL,
+  `updated_by` int NOT NULL,
+  `price` decimal(6,4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `service_category_id` (`service_category_id`),
+  CONSTRAINT `service_ibfk_1` FOREIGN KEY (`service_category_id`) REFERENCES `service_category` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
    CREATE TABLE `store_service` (
      `id` int NOT NULL AUTO_INCREMENT,
      `store_id` int not null,
@@ -240,12 +271,12 @@
    PRIMARY KEY (`id`),
    FOREIGN KEY (user_id) references user(id)
  );
-
+// select ubd.id, s.name,ss.price from user_booking_details ubd join store_service ss on ubd.store_service_id = ss.id and ubd.booking_id = {booking_id} joing service s on s.id = ss.service_id
  CREATE TABLE `user_booking` (
    `id` int NOT NULL AUTO_INCREMENT,
     user_id int not null,
     booking_start_time TIMESTAMP NOT NULL,
-    store_service_id int not null,
+    store_id int not null,
     status varchar(255) NOT NULL,-- requested, cancelled, completed, accepted
     notes text NOT NULL, -- can be used for addition additional-details
    added_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -254,7 +285,7 @@
    updated_by int not null,
    PRIMARY KEY (`id`),
    FOREIGN KEY (user_id) references user(id),
-   FOREIGN KEY (store_service_id) references store_service(id)
+   FOREIGN KEY (store_id) references organisation_location_store(id)
  );
 
  CREATE TABLE `user_booking_details` (
@@ -262,7 +293,6 @@
     booking_id int not null,
     store_service_id int not null,
     status varchar(255) NOT NULL,-- cancelled, completed
-    notes text NOT NULL, -- can be used for addition additional-details
    added_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    updated_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
    added_by int not null,

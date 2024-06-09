@@ -1,6 +1,5 @@
 package com.Spring.SpringBootMysql.entities.jpa;
 
-import com.Spring.SpringBootMysql.constants.Constants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
@@ -12,28 +11,33 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user")
+@Table(name = "booking_payment")
 @Data
 @Accessors(chain = true)
-public class UserEntity {
+public class BookingPaymentEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column private String name;
+  @Column(name = "user_booking_id")
+  private Long userBookingId;
 
-  @Column private String email;
+  @Column private Double discount;
 
-  @Column(name = "phone_number")
-  private String phoneNumber;
+  @Column(name = "total_amount")
+  private Double totalAmount;
 
-  @Column(name = "org_id")
-  private Long orgId;
+  @Column(name = "paid_amount")
+  private Double paidAmount;
 
-  @Column(name = "status")
-  private String status = Constants.Status.ACTIVE;
-  @Column(name = "password")
-  private String password;
+  @Column(name = "payment_method")
+  private String paymentMethod;
+
+  @Column(name = "added_by")
+  private int addedBy;
+
+  @Column(name = "updated_by")
+  private int updatedBy;
 
   @Column(name = "added_on")
   @CreationTimestamp
@@ -45,4 +49,5 @@ public class UserEntity {
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   @JsonInclude(JsonInclude.Include.NON_NULL)
   private LocalDateTime updatedOn;
+
 }

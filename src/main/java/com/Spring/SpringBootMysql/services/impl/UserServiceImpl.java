@@ -7,6 +7,7 @@ import com.Spring.SpringBootMysql.domains.internal.request.UserUpdateRequest;
 import com.Spring.SpringBootMysql.entities.jpa.UserEntity;
 import com.Spring.SpringBootMysql.exceptions.ResourceNotFoundException;
 import com.Spring.SpringBootMysql.repository.UserRepo;
+import com.Spring.SpringBootMysql.security.TokenProvider;
 import com.Spring.SpringBootMysql.services.UserService;
 import com.Spring.SpringBootMysql.utils.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -33,9 +36,15 @@ public class UserServiceImpl implements UserService {
   UserRepo userRepo;
   Utils utils;
 
+  private PasswordEncoder passwordEncoder;
+  private AuthenticationManager authenticationManager;
+  private TokenProvider tokenProvider;
+
   @Autowired
-  public UserServiceImpl(UserRepo userRepo, Utils utils) {
+  public UserServiceImpl(UserRepo userRepo, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, TokenProvider tokenProvider, Utils utils) {
     this.userRepo = userRepo;
+    this.passwordEncoder = passwordEncoder;
+    this.authenticationManager = authenticationManager;
     this.utils = utils;
   }
 
@@ -47,6 +56,7 @@ public class UserServiceImpl implements UserService {
     userEntity.setEmail(userCreateRequest.getEmail());
     userEntity.setPhoneNumber(userCreateRequest.getPhoneNumber());
     userEntity.setOrgId(userCreateRequest.getOrgId());
+    userEntity.setPassword(passwordEncoder.encode(userCreateRequest.getPassword()));
     userRepo.save(userEntity);
     return StatusMessageResponse.builder()
         .data(userEntity)
@@ -116,5 +126,29 @@ public class UserServiceImpl implements UserService {
         .code(HttpStatus.OK.value())
         .message("User updated successfully")
         .build();
+  }
+
+  @Override
+  public StatusMessageResponse getUserByEmail(String email) {
+    Optional<UserEntity> optionalUserEntity = userRepo.findByEmail(email);
+    if (!optionalUserEntity.isPresent()) {
+      throw new ResourceNotFoundException("User with email: " + email + " not found");
+    }
+    return StatusMessageResponse.builder()
+            .data(optionalUserEntity.get())
+            .code(HttpStatus.OK.value())
+            .message("User details fetched")
+            .build();
+  }
+
+
+  @Override
+  public boolean hasUserWithEmail(String email) {
+    return userRepo.existsByEmail(email);
+  }
+
+  @Override
+  public boolean hasUserWithPhoneNumber(String phoneNumber) {
+    return userRepo.existsByPhoneNumber(phoneNumber);
   }
 }
